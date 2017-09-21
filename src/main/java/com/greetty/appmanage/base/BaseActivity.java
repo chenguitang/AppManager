@@ -9,6 +9,13 @@ import android.view.View;
 
 import com.greetty.appmanage.R;
 
+import butterknife.ButterKnife;
+
+/**
+* created by Greetty at 2017/9/21 13:09
+*
+* BaseActivity
+*/
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";
@@ -18,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(initContentView());
+        ButterKnife.bind(this);
         init();
     }
 
