@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.greetty.appmanage.R;
+import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.base.BaseActivity;
 import com.greetty.appmanage.view.CircleProgressbar;
 
@@ -17,7 +18,8 @@ import butterknife.BindView;
  * <p>
  * SplashActivity 闪屏页
  */
-public class SplashActivity extends BaseActivity implements CircleProgressbar.OnCountdownProgressListener, View.OnClickListener {
+public class SplashActivity extends BaseActivity implements
+        CircleProgressbar.OnCountdownProgressListener, View.OnClickListener {
 
     private static final String TAG = "SplashActivity";
     @BindView(R.id.tv_red_skip)
@@ -29,6 +31,7 @@ public class SplashActivity extends BaseActivity implements CircleProgressbar.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -38,14 +41,14 @@ public class SplashActivity extends BaseActivity implements CircleProgressbar.On
 
     @Override
     protected void init() {
-        tvRedSkip.setOutLineColor(Color.TRANSPARENT);
-        tvRedSkip.setInCircleColor(Color.parseColor("#505559"));
-        tvRedSkip.setProgressColor(Color.parseColor("#1BB079"));
+        tvRedSkip.setOutLineColor(Color.parseColor("#FFFFFF"));  //外边框颜色
+        tvRedSkip.setInCircleColor(Color.parseColor("#e4e3e3")); //内部圆颜色
+        tvRedSkip.setProgressColor(Color.parseColor("#1BB079")); //进度条颜色
         tvRedSkip.setProgressLineWidth(5);
+        tvRedSkip.setOutLineWidth(5);
         tvRedSkip.setProgressType(CircleProgressbar.ProgressType.COUNT);
-        tvRedSkip.setTimeMillis(5000);
+        tvRedSkip.setTimeMillis(AppConfig.SPLASH_TIME);
         tvRedSkip.reStart();
-
         initEvent();
     }
 

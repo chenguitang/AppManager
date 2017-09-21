@@ -1,13 +1,19 @@
 package com.greetty.appmanage.base;
 
 import android.content.Intent;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.greetty.appmanage.R;
+import com.greetty.appmanage.app.AppConfig;
+import com.greetty.appmanage.util.UIUtil;
 
 import butterknife.ButterKnife;
 
@@ -19,6 +25,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";
+    private long mPressedOne=0; //第一次按下返回键的系统时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,5 +69,20 @@ public abstract class BaseActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==KeyEvent.KEYCODE_BACK && event.getRepeatCount()==0){
+            if (System.currentTimeMillis()-mPressedOne> AppConfig.ON_BACK_PRESS_DOUBLE_EXIT){
+                UIUtil.Toast(this,"再按一次退出程序");
+                mPressedOne= System.currentTimeMillis();
+            }else{
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

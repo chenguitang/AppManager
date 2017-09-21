@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/splash_1"
+    android:background="@mipmap/splash_bg"
     tools:context=".ui.activity.SplashActivity">
 
     <ScrollView
@@ -19,8 +19,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:text="跳过"
-            android:textColor="#ffffff"
-            android:textSize="12sp"/>
+            android:textSize="10sp"/>
 
     </ScrollView>
 
