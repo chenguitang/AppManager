@@ -13,7 +13,6 @@ public class RxApp extends Application {
 
     private static Context mContext;
 
-
     /**
      * 获取上下文对象
      * @return  Context

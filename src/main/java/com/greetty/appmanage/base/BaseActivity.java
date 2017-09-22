@@ -1,17 +1,12 @@
 package com.greetty.appmanage.base;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.util.UIUtil;
 

@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.AppConfig;
+import com.greetty.appmanage.app.Constants;
 import com.greetty.appmanage.base.BaseActivity;
+import com.greetty.appmanage.service.SplashDownLoadService;
 import com.greetty.appmanage.view.CircleProgressbar;
 
 import butterknife.BindView;
@@ -41,6 +43,19 @@ public class SplashActivity extends BaseActivity implements
 
     @Override
     protected void init() {
+
+        setTvRedSkip();
+        initEvent();
+        startImageDownLoad();
+
+    }
+
+    /**
+     * 设置倒计时进度条基本信息
+     *
+     * 启动倒计时
+     */
+    private void setTvRedSkip() {
         tvRedSkip.setOutLineColor(Color.parseColor("#FFFFFF"));  //外边框颜色
         tvRedSkip.setInCircleColor(Color.parseColor("#e4e3e3")); //内部圆颜色
         tvRedSkip.setProgressColor(Color.parseColor("#1BB079")); //进度条颜色
@@ -49,7 +64,13 @@ public class SplashActivity extends BaseActivity implements
         tvRedSkip.setProgressType(CircleProgressbar.ProgressType.COUNT);
         tvRedSkip.setTimeMillis(AppConfig.SPLASH_TIME);
         tvRedSkip.reStart();
-        initEvent();
+    }
+
+    /**
+     * 下载最新闪屏页
+     */
+    private void startImageDownLoad() {
+        SplashDownLoadService.startDownLoadSplashImage(this, Constants.DOWNLOAD_SPLASH);
     }
 
     /**
@@ -59,7 +80,6 @@ public class SplashActivity extends BaseActivity implements
         tvRedSkip.setCountdownProgressListener(1, this);
         tvRedSkip.setOnClickListener(this);
     }
-
 
     /**
      * 进度条
