@@ -7,7 +7,6 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -98,12 +97,6 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
             default:
                 break;
         }
-        // 当点击不同按钮的时候，设置不同的颜色
-        // 可以用以下三种方式来设置颜色.
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
-        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.green));
-        mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
     }
 
     @Override
