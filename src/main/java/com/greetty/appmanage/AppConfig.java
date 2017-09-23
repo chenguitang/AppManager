@@ -1,4 +1,4 @@
-package com.greetty.appmanage.app;
+package com.greetty.appmanage;
 
 /**
  * Created by Greetty on 2017/9/21.

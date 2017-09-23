@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-import com.greetty.appmanage.app.AppConfig;
+import com.greetty.appmanage.AppConfig;
 import com.greetty.appmanage.util.UIUtil;
 
 import butterknife.ButterKnife;
