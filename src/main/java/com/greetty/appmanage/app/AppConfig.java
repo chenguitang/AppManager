@@ -13,7 +13,7 @@ public class AppConfig {
      *
      * 单位：毫秒
      */
-    public static final int SPLASH_TIME = 3000;
+    public static final int SPLASH_TIME = 1000;
 
     /**
      * 连接按两下返回键退出应用的点击间隔

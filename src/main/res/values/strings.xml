@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AppManage</string>
+    <string name="skip">Skip</string>
+    <string name="unlocked_app">UnLocked</string>
+    <string name="locked_app">Locked</string>
+    <string name="hide_app">Hide</string>
+    <string name="my_app">Me</string>
+
 </resources>

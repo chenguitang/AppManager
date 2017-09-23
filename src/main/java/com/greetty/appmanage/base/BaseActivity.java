@@ -26,9 +26,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        Log.e(TAG, "BaseActivity onCreate11111: ");
         setContentView(initContentView());
+        Log.e(TAG, "BaseActivity onCreate22222: ");
         ButterKnife.bind(this);
-        init();
+        init(savedInstanceState);
     }
 
     /**
@@ -41,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 初始化数据
      */
-    protected abstract void init();
+    protected abstract void init(Bundle savedInstanceState);
 
     /**
      * 打开一个Activity

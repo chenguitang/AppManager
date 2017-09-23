@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bb_menu_unlocked"
+        android:icon="@mipmap/unlocked_1"
+        android:title="@string/unlocked_app" />
+    <item
+        android:id="@+id/bb_menu_locked"
+        android:icon="@mipmap/locked_1"
+        android:title="@string/locked_app" />
+    <item
+        android:id="@+id/bb_menu_hide"
+        android:icon="@mipmap/hide"
+        android:title="@string/hide_app" />
+    <item
+        android:id="@+id/bb_menu_me"
+        android:icon="@mipmap/me"
+        android:title="@string/my_app" />
+</menu>

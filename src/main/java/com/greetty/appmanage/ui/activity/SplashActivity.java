@@ -56,8 +56,7 @@ public class SplashActivity extends BaseActivity implements
     }
 
     @Override
-    protected void init() {
-
+    protected void init(Bundle savedInstanceState) {
         initSplashImage();
         setTvRedSkip();
         initEvent();
@@ -68,13 +67,14 @@ public class SplashActivity extends BaseActivity implements
     private void initSplashImage() {
         String SplashFile = FileUtil.getGlobalpath() + fileName;
         File file=new File(SplashFile);
-        if (!file.exists())
-            return;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(SplashFile);
-        ivSplashBg.setImageBitmap(bitmap);
-        Log.e(TAG, "加载下载好的闪屏页 ");
-
+        if (!file.exists()){
+            ivSplashBg.setImageDrawable(SplashActivity.this.getResources().
+                    getDrawable(R.mipmap.splash_1));
+        }else{
+            Bitmap bitmap = BitmapFactory.decodeFile(SplashFile);
+            ivSplashBg.setImageBitmap(bitmap);
+            Log.e(TAG, "加载下载好的闪屏页 ");
+        }
     }
 
     /**

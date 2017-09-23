@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">应用管理</string>
+    <string name="skip">跳过</string>
+    <string name="unlocked_app">未加锁</string>
+    <string name="locked_app">已加锁</string>
+    <string name="hide_app">隐藏应用</string>
+    <string name="my_app">我的</string>
+
+</resources>
