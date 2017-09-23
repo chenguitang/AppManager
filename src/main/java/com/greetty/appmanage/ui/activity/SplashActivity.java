@@ -1,17 +1,25 @@
 package com.greetty.appmanage.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.app.Constants;
 import com.greetty.appmanage.base.BaseActivity;
 import com.greetty.appmanage.service.SplashDownLoadService;
+import com.greetty.appmanage.util.FileUtil;
 import com.greetty.appmanage.view.CircleProgressbar;
+
+import java.io.File;
 
 import butterknife.BindView;
 
@@ -26,9 +34,15 @@ public class SplashActivity extends BaseActivity implements
     private static final String TAG = "SplashActivity";
     @BindView(R.id.tv_red_skip)
     CircleProgressbar tvRedSkip;
+    @BindView(R.id.cl_splash_bg)
+    ConstraintLayout clSplashBg;
+    @BindView(R.id.iv_splash_bg)
+    ImageView ivSplashBg;
 
     private Handler mHandler = new Handler();
     private boolean isClick = false;  //是否点击跳过按钮
+    private String fileName = "Splash.png";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +58,22 @@ public class SplashActivity extends BaseActivity implements
     @Override
     protected void init() {
 
+        initSplashImage();
         setTvRedSkip();
         initEvent();
         startImageDownLoad();
+
+    }
+
+    private void initSplashImage() {
+        String SplashFile = FileUtil.getGlobalpath() + fileName;
+        File file=new File(SplashFile);
+        if (!file.exists())
+            return;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(SplashFile);
+        ivSplashBg.setImageBitmap(bitmap);
+        Log.e(TAG, "加载下载好的闪屏页 ");
 
     }
 

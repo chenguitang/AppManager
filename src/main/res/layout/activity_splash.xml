@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/splash_1"
+    android:id="@+id/cl_splash_bg"
     tools:context=".ui.activity.SplashActivity">
+
+    <ImageView
+        android:id="@+id/iv_splash_bg"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:background="@mipmap/splash_1"
+        android:layout_height="match_parent" />
 
     <ScrollView
         android:layout_width="match_parent"

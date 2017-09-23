@@ -24,7 +24,7 @@
         <activity android:name=".ui.activity.MainActivity" />
 
         <service
-            android:name=".service.SplashDownLoadService"
+            android:name="com.greetty.appmanage.service.SplashDownLoadService"
             android:enabled="true"
             android:exported="false"/>
 

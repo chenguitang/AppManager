@@ -266,5 +266,9 @@ public class FileUtil {
         return false;
     }
 
+    public static String getGlobalpath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath()
+                + File.separator + "AppManage/Splash" + File.separator;
+    }
 
 }
