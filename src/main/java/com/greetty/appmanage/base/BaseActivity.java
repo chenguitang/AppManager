@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-import com.greetty.appmanage.AppConfig;
+import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.util.UIUtil;
 
 import butterknife.ButterKnife;
@@ -26,9 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        Log.e(TAG, "BaseActivity onCreate11111: ");
         setContentView(initContentView());
-        Log.e(TAG, "BaseActivity onCreate22222: ");
         ButterKnife.bind(this);
         init(savedInstanceState);
     }

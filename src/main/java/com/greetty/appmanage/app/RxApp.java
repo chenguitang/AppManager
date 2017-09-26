@@ -27,8 +27,8 @@ public class RxApp extends Application {
         mContext = getApplicationContext();
 
         //异常崩溃信息捕获
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(this);
 
     }
 }

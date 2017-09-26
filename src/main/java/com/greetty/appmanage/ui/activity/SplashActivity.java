@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.greetty.appmanage.R;
-import com.greetty.appmanage.AppConfig;
+import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.app.Constants;
 import com.greetty.appmanage.base.BaseActivity;
 import com.greetty.appmanage.service.SplashDownLoadService;

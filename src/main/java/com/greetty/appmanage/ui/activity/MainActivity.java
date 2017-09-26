@@ -24,9 +24,11 @@ import butterknife.BindView;
 
 /**
  * created by Greetty at 2017/9/21 13:09
- * <p>
+ *
  * MainActivity 主页面
  */
+
+
 public class MainActivity extends BaseActivity implements OnMenuTabClickListener, ViewPager.OnPageChangeListener {
 
     private static final String TAG = "MainActivity";
@@ -36,7 +38,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     private UnlockedFragment mUnlockedFragment;
     private MyAppFragment mMyAppFragment;
     private BottomBar mBottomBar;
-    private FragmentTransaction transaction;
+    private List<Fragment> mFragmentList;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -61,10 +63,9 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         mBottomBar.noTabletGoodness();
         // 始终显示标题文字，在 setItems() 之前调用
         mBottomBar.useFixedMode();
-        //添加初始Fragment
-//        defaultFragment(null == mUnlockedFragment ? mUnlockedFragment =
-//                mUnlockedFragment.newInstance() : mUnlockedFragment);
         mBottomBar.setItems(R.menu.bottombar_menu);
+
+        mBottomBar.setFadingEdgeLength(10);
 
         initViewPager();
         initEvent();
@@ -80,14 +81,20 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
      * 初始化Viewpager
      */
     private void initViewPager() {
-
-        List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(0,UnlockedFragment.newInstance());
-        mFragmentList.add(1,LockedFragment.newInstance());
-        mFragmentList.add(2,HideAppFragment.newInstance());
-        mFragmentList.add(3,MyAppFragment.newInstance());
-
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),mFragmentList));
+        mFragmentList = new ArrayList<>();
+        if (mUnlockedFragment == null)
+            mUnlockedFragment = UnlockedFragment.newInstance();
+        mFragmentList.add(0, mUnlockedFragment);
+        if (mLockedFragment == null)
+            mLockedFragment = LockedFragment.newInstance();
+        mFragmentList.add(1, mLockedFragment);
+        if (mHideAppFragment == null)
+            mHideAppFragment = HideAppFragment.newInstance();
+        mFragmentList.add(2, mHideAppFragment);
+        if (mMyAppFragment == null)
+            mMyAppFragment = MyAppFragment.newInstance();
+        mFragmentList.add(3, mMyAppFragment);
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), mFragmentList));
     }
 
 
@@ -96,31 +103,15 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         //单击事件 menuItemId 是 R.menu.bottombar_menu 中 item 的 id
         switch (menuItemId) {
             case R.id.bb_menu_unlocked:
-//                if (null == mUnlockedFragment) {
-//                    mUnlockedFragment = UnlockedFragment.newInstance();
-//                }
-//                replaceFragment(mUnlockedFragment);
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.bb_menu_locked:
-//                if (null == mLockedFragment) {
-//                    mLockedFragment = LockedFragment.newInstance();
-//                }
-//                replaceFragment(mLockedFragment);
                 viewPager.setCurrentItem(1);
                 break;
             case R.id.bb_menu_hide:
-//                if (null == mHideAppFragment) {
-//                    mHideAppFragment = HideAppFragment.newInstance();
-//                }
-//                replaceFragment(mHideAppFragment);
                 viewPager.setCurrentItem(2);
                 break;
             case R.id.bb_menu_me:
-//                if (null == mMyAppFragment) {
-//                    mMyAppFragment = MyAppFragment.newInstance();
-//                }
-//                replaceFragment(mMyAppFragment);
                 viewPager.setCurrentItem(3);
                 break;
             default:
@@ -140,35 +131,6 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         //保存BottomBar的状态
         mBottomBar.onSaveInstanceState(outState);
     }
-
-
-    /**
-     * 切换Fragment
-     *
-     * @param fragment Fragment
-     */
-    private void replaceFragment(Fragment fragment) {
-//        FragmentManager fm = getSupportFragmentManager();
-//        transaction = fm.beginTransaction();
-//        transaction.replace(R.id.main_fragment_layout, fragment);
-////        transaction.hide();
-//        transaction.commit();
-
-    }
-
-
-    /**
-     * 进入应用，加载默认Fragment->未加锁应用
-     *
-     * @param fragment Fragment
-     */
-    private void defaultFragment(Fragment fragment) {
-//        FragmentManager fm = getSupportFragmentManager();
-//        transaction = fm.beginTransaction();
-//        transaction.add(R.id.main_fragment_layout, fragment);
-//        transaction.commit();
-    }
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
