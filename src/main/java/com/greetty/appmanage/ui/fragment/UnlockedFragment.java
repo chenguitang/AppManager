@@ -14,9 +14,11 @@ import com.greetty.appmanage.base.BaseFragment;
 import com.greetty.appmanage.model.entity.AppInfo;
 import com.greetty.appmanage.presenter.UnLockAppPresenter;
 import com.greetty.appmanage.presenter.impl.UnLockAppPresenterImpl;
+import com.greetty.appmanage.ui.adapter.UnLockAppAdapter;
 import com.greetty.appmanage.ui.view.UnLockAppView;
 import com.greetty.appmanage.util.LoadingUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +38,8 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
 
     private UnLockAppPresenter mUnLockAppPresenter;
     private LoadingUtil mLoadingUtil;
+    private UnLockAppAdapter mUnLockAppAdapter;
+    private List<AppInfo> mList;
 
     public static UnlockedFragment newInstance() {
 
@@ -55,10 +59,11 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
     protected void init() {
         mUnLockAppPresenter=new UnLockAppPresenterImpl(this);
         mLoadingUtil=new LoadingUtil(getContext());
+        mList=new ArrayList<>();
 
         rvUnLockList.setLayoutManager(new LinearLayoutManager(mContext));
         rvUnLockList.setItemAnimator(new DefaultItemAnimator());
-        rvUnLockList.setAdapter();
+
         //添加分割线
 //        rvUnLockList.addItemDecoration(new DividerItemDecoration(
 //                getActivity(), DividerItemDecoration.HORIZONTAL_LIST));
@@ -91,10 +96,12 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
 
     @Override
     public void displayLockApp(List<AppInfo> list) {
-        for (int i=0;i<list.size();i++){
-            Log.e(TAG, "packageName: "+list.get(i).getPackname());
-        }
-        Toast.makeText(RxApp.getInstance(), "显示应用", Toast.LENGTH_SHORT).show();
+//        for (int i=0;i<list.size();i++){
+//            Log.e(TAG, "packageName: "+list.get(i).getPackname());
+//        }
+        Log.e(TAG, "applist size: "+list.size());
+        mUnLockAppAdapter=new UnLockAppAdapter(RxApp.getInstance(),list);
+        rvUnLockList.setAdapter(mUnLockAppAdapter);
 
     }
 }

@@ -58,6 +58,12 @@ public class AppUtil {
             appinfo.setIcon(icon);
             String appname = packInfo.applicationInfo.loadLabel(pm).toString();
             appinfo.setName(appname);
+            //应用版本
+            int versionCode = packInfo.versionCode;
+            appinfo.setVersionCode(versionCode);
+            //应用版本
+            String versionName = packInfo.versionName;
+            appinfo.setVersionName(versionName);
             //应用程序apk包的路径
             String apkpath = packInfo.applicationInfo.sourceDir;
             appinfo.setApkpath(apkpath);
@@ -84,5 +90,12 @@ public class AppUtil {
             appinfo = null;
         }
         return appinfos;
+    }
+
+    public static String ObjectAppend(Object... objects) {
+        StringBuffer sb = new StringBuffer();
+        for (Object obj : objects)
+            sb.append(obj);
+        return sb.toString();
     }
 }

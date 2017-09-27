@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.model.entity.AppInfo;
@@ -21,25 +20,25 @@ import butterknife.ButterKnife;
 /**
  * Created by Greetty on 2017/9/27.
  */
-public class UnLockAppAdapter extends RecyclerView.Adapter<UnLockAppAdapter.MyViewHolder> implements View.OnClickListener {
+public class LockAppAdapter extends RecyclerView.Adapter<LockAppAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<AppInfo> listUnlockApp;
 
-    public UnLockAppAdapter(Context context, List<AppInfo> list) {
+    public LockAppAdapter(Context context, List<AppInfo> list) {
         this.mContext = context;
         this.listUnlockApp = list;
     }
 
     @Override
-    public UnLockAppAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_unlock, parent, false);
+    public LockAppAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_lock, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(UnLockAppAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(LockAppAdapter.MyViewHolder holder, int position) {
         holder.iv_icon.setImageDrawable(listUnlockApp.get(position).getIcon());
         holder.tv_name.setText(AppUtil.ObjectAppend("应用名字：",
                 listUnlockApp.get(position).getName()));
@@ -49,24 +48,11 @@ public class UnLockAppAdapter extends RecyclerView.Adapter<UnLockAppAdapter.MyVi
                 listUnlockApp.get(position).getVersionCode()));
         holder.tv_size.setText(AppUtil.ObjectAppend("应用大小",
                 listUnlockApp.get(position).getName()));
-
-        holder.iv_unlock.setOnClickListener(this);
     }
 
     @Override
     public int getItemCount() {
         return listUnlockApp.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_unlock:
-                Toast.makeText(mContext, "加锁该应用", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -79,8 +65,8 @@ public class UnLockAppAdapter extends RecyclerView.Adapter<UnLockAppAdapter.MyVi
         TextView tv_size;
         @BindView(R.id.tv_version)
         TextView tv_version;
-        @BindView(R.id.iv_unlock)
-        ImageView iv_unlock;
+        @BindView(R.id.iv_lock)
+        ImageView iv_lock;
 
         public MyViewHolder(View view) {
             super(view);

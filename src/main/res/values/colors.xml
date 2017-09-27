@@ -9,5 +9,7 @@
     <color name="blue">#2A91BD</color>
     <color name="orange">#FF9D2F</color>
     <color name="red">#FF432F</color>
+    <color name="item_division">#d6d6d6</color>
+    <color name="black_light">#292929</color>
 
 </resources>
