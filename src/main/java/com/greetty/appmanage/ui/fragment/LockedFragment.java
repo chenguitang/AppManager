@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.greetty.appmanage.R;
+import com.greetty.appmanage.app.RxApp;
 import com.greetty.appmanage.base.BaseFragment;
 import com.greetty.appmanage.model.entity.AppInfo;
 import com.greetty.appmanage.presenter.LockAppPresenter;
@@ -69,7 +70,7 @@ public class LockedFragment extends BaseFragment implements LockAppView {
 
     @Override
     public void showFailure(Exception e) {
-        Toast.makeText(mContext, "error："+e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(RxApp.getInstance(), "error："+e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
