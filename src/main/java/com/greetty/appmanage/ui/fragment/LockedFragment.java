@@ -24,11 +24,11 @@ import butterknife.BindView;
 
 /**
  * Created by Greetty on 2017/9/23.
- *
+ * <p>
  * 已加锁应用
  */
 
-public class LockedFragment extends BaseFragment implements LockAppView {
+public class LockedFragment extends BaseFragment implements LockAppView, UnLockAppAdapter.DataChangeListener {
 
     private static final String TAG = "LockedFragment";
 
@@ -37,6 +37,8 @@ public class LockedFragment extends BaseFragment implements LockAppView {
 
     private LockAppPresenter mLockAppPresenter;
     private LoadingUtil mLoadingUtil;
+    private LockAppAdapter mLockAppAdapter;
+
 
     public static LockedFragment newInstance() {
 
@@ -48,8 +50,6 @@ public class LockedFragment extends BaseFragment implements LockAppView {
     }
 
 
-
-
     @Override
     protected int initContentView() {
         return R.layout.fragment_locked_app;
@@ -57,8 +57,8 @@ public class LockedFragment extends BaseFragment implements LockAppView {
 
     @Override
     protected void init() {
-        mLockAppPresenter=new LockAppPresenterImpl(this);
-        mLoadingUtil=new LoadingUtil(getContext());
+        mLockAppPresenter = new LockAppPresenterImpl(this);
+        mLoadingUtil = new LoadingUtil(getContext());
 
         rvLockList.setLayoutManager(new LinearLayoutManager(mContext));
         rvLockList.setItemAnimator(new DefaultItemAnimator());
@@ -71,25 +71,30 @@ public class LockedFragment extends BaseFragment implements LockAppView {
 
     @Override
     public void showLoading() {
-//        Log.e(TAG, "showLoading: ");
-//        Toast.makeText(mContext, "showLoading . . .", Toast.LENGTH_SHORT).show();
         mLoadingUtil.showLoading();
     }
 
     @Override
     public void hideLoading() {
-//        Log.e(TAG, "hideLoading: ");
-//        Toast.makeText(mContext, "hideLoading . . .", Toast.LENGTH_SHORT).show();
         mLoadingUtil.dismissLoading();
     }
 
     @Override
     public void showFailure(Exception e) {
-        Toast.makeText(RxApp.getInstance(), "error："+e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(RxApp.getInstance(), "error：" + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayLockApp(List<AppInfo> list) {
-        rvLockList.setAdapter(new LockAppAdapter(RxApp.getInstance(),list));
+        mLockAppAdapter = new LockAppAdapter(RxApp.getInstance(), list);
+        rvLockList.setAdapter(mLockAppAdapter);
+        mLockAppAdapter.setDataChangeListener(this);
+    }
+
+    @Override
+    public void dataChange(int position) {
+        Log.d(TAG, "数据已改变，正在刷新数据。。。");
+        if (mLockAppAdapter != null)
+            mLockAppAdapter.notifyDataSetChanged();
     }
 }

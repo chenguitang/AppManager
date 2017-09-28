@@ -1,11 +1,15 @@
 package com.greetty.appmanage.model.impl;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 
 import com.greetty.appmanage.model.LockAppModel;
 import com.greetty.appmanage.model.db.dao.AppLockDao;
 import com.greetty.appmanage.model.entity.AppInfo;
 import com.greetty.appmanage.presenter.listener.OnLockAPPListener;
+import com.greetty.appmanage.presenter.listener.OnUnLockAPPListener;
 import com.greetty.appmanage.util.AppUtil;
 
 import java.util.ArrayList;
@@ -16,23 +20,51 @@ import java.util.List;
  */
 public class LockAppModelImpl implements LockAppModel {
 
+    private static final int QUERY_SUCCESS = 101;
+    private static final int QUERY_ERROR = 102;
+
+    private List<AppInfo> lockAppInfos;
+    private OnLockAPPListener mOnLockAPPListener;
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case QUERY_SUCCESS:
+                    mOnLockAPPListener.onSuccess(lockAppInfos);
+                    break;
+                case QUERY_ERROR:
+                    mOnLockAPPListener.onError((Exception) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
-    public void loadLockApp(Context context, OnLockAPPListener onLockAPPListener) {
-        try {
-            AppLockDao appLockDao = new AppLockDao(context);
-            List<String> lockAPPs = appLockDao.queryAllLockApp();
-            List<AppInfo> lockAppInfos = new ArrayList<>();
-            List<AppInfo> allAppInfos = AppUtil.getAppInfos(context);
-            for (int i = 0; i < lockAPPs.size(); i++) {
-                for (AppInfo appinfo : allAppInfos) {
-                    if (appinfo.getPackname().equals(lockAPPs.get(i)))
-                        lockAppInfos.add(appinfo);
+    public void loadLockApp(final Context context, final OnLockAPPListener onLockAPPListener) {
+        mOnLockAPPListener=onLockAPPListener;
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    AppLockDao appLockDao = new AppLockDao(context);
+                    lockAppInfos = new ArrayList<>();
+                    List<String> lockAPPs = appLockDao.queryAllLockApp();
+                    List<AppInfo> allAppInfos = AppUtil.getAppInfos(context);
+                    for (int i = 0; i < lockAPPs.size(); i++) {
+                        for (AppInfo appinfo : allAppInfos) {
+                            if (appinfo.getPackname().equals(lockAPPs.get(i)))
+                                lockAppInfos.add(appinfo);
+                        }
+                    }
+                    mHandler.sendEmptyMessage(QUERY_SUCCESS);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mHandler.obtainMessage(QUERY_ERROR,e).sendToTarget();
                 }
             }
-            onLockAPPListener.onSuccess(lockAppInfos);
-        } catch (Exception e) {
-            e.printStackTrace();
-            onLockAPPListener.onError(e);
-        }
+        }.start();
     }
 }

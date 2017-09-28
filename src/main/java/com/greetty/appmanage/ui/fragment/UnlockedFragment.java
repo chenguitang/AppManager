@@ -25,11 +25,11 @@ import butterknife.BindView;
 
 /**
  * Created by Greetty on 2017/9/23.
- *
+ * <p>
  * 未加锁应用
  */
 
-public class UnlockedFragment extends BaseFragment implements UnLockAppView {
+public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnLockAppAdapter.DataChangeListener {
 
     private static final String TAG = "UnlockedFragment";
 
@@ -57,9 +57,9 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
 
     @Override
     protected void init() {
-        mUnLockAppPresenter=new UnLockAppPresenterImpl(this);
-        mLoadingUtil=new LoadingUtil(getContext());
-        mList=new ArrayList<>();
+        mUnLockAppPresenter = new UnLockAppPresenterImpl(this);
+        mLoadingUtil = new LoadingUtil(getContext());
+        mList = new ArrayList<>();
 
         rvUnLockList.setLayoutManager(new LinearLayoutManager(mContext));
         rvUnLockList.setItemAnimator(new DefaultItemAnimator());
@@ -91,7 +91,7 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
 
     @Override
     public void showFailure(Exception e) {
-        Toast.makeText(RxApp.getInstance(), "出错了："+e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(RxApp.getInstance(), "出错了：" + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -99,9 +99,16 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView {
 //        for (int i=0;i<list.size();i++){
 //            Log.e(TAG, "packageName: "+list.get(i).getPackname());
 //        }
-        Log.e(TAG, "applist size: "+list.size());
-        mUnLockAppAdapter=new UnLockAppAdapter(RxApp.getInstance(),list);
+        Log.e(TAG, "applist size: " + list.size());
+        mUnLockAppAdapter = new UnLockAppAdapter(RxApp.getInstance(), list);
         rvUnLockList.setAdapter(mUnLockAppAdapter);
+        mUnLockAppAdapter.setDataChangeListener(this);
+    }
 
+    @Override
+    public void dataChange(int position) {
+        Log.d(TAG, "数据已改变，正在刷新数据。。。");
+        if (mUnLockAppAdapter != null)
+            mUnLockAppAdapter.notifyDataSetChanged();
     }
 }

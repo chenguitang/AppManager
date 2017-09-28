@@ -23,10 +23,6 @@ public class UnLockAppPresenterImpl implements UnLockAppPresenter, OnUnLockAPPLi
     private UnLockAppModel unLockAppModel;
 
     public UnLockAppPresenterImpl(UnLockAppView unLockAppView) {
-        if (unLockAppView == null) {
-            Log.e(TAG, "我是空的，你不能初始化我: ");
-
-        }
         this.unLockAppView = unLockAppView;
         this.unLockAppModel = new UnLockAppModelImpl();
     }

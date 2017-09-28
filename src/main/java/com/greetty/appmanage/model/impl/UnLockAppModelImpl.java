@@ -1,6 +1,9 @@
 package com.greetty.appmanage.model.impl;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 
 import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.model.LockAppModel;
@@ -19,16 +22,42 @@ import java.util.List;
  */
 public class UnLockAppModelImpl implements UnLockAppModel {
 
-    @Override
-    public void loadLockApp(Context context, OnUnLockAPPListener onUnLockAPPListener) {
-        try {
-            List<AppInfo> unLockAppInfo = AppUtil.getAppInfos(context);
-            onUnLockAPPListener.onSuccess(unLockAppInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            onUnLockAPPListener.onError(e);
+    private static final int QUERY_SUCCESS = 99;
+    private static final int QUERY_ERROR = 100;
+
+    private List<AppInfo> unLockAppInfo;
+    private OnUnLockAPPListener mOnUnLockAPPListener;
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case QUERY_SUCCESS:
+                    mOnUnLockAPPListener.onSuccess(unLockAppInfo);
+                    break;
+                case QUERY_ERROR:
+                    mOnUnLockAPPListener.onError((Exception) msg.obj);
+                    break;
+                default:
+                    break;
+            }
         }
+    };
 
-
+    @Override
+    public void loadLockApp(final Context context, final OnUnLockAPPListener onUnLockAPPListener) {
+        mOnUnLockAPPListener=onUnLockAPPListener;
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    unLockAppInfo = AppUtil.getAppInfos(context);
+                    mHandler.sendEmptyMessage(QUERY_SUCCESS);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mHandler.obtainMessage(QUERY_ERROR,e).sendToTarget();
+                }
+            }
+        }.start();
     }
 }

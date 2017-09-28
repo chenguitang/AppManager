@@ -82,9 +82,6 @@ public class AppLockDao {
         }
         cursor.close();
         db.close();
-        packageNames.add("com.posin.functiontest");
-        packageNames.add("com.tencent.mm");
-        packageNames.add("com.greetty.oberverdemo");
         return packageNames;
     }
 

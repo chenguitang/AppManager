@@ -32,5 +32,12 @@ public class AppConfig {
      */
     public static final String TABLE_HIDE_APP_NAME = "apphide";
 
+    /**
+     * 动画执行时间
+     *
+     * 单位：毫秒
+     */
+    public static final int ITEM_ANIMATION_TIME = 300;
+
 
 }
