@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class LockAppPresenterImpl implements LockAppPresenter,OnLockAPPListener {
 
+    private static final String TAG = "LockAppPresenterImpl";
     private LockAppView lockAppView;
     private LockAppModel lockAppModel;
 
@@ -35,12 +36,15 @@ public class LockAppPresenterImpl implements LockAppPresenter,OnLockAPPListener 
 
     @Override
     public void onSuccess(List<AppInfo> list) {
+        Log.e(TAG, "+++++++ onSuccess ++++++++");
+        Log.e(TAG, "list.size: "+list.size());
         lockAppView.hideLoading();
         lockAppView.displayLockApp(list);
     }
 
     @Override
     public void onError(Exception e) {
+        Log.e(TAG, "+++++++ onError ++++++++");
         lockAppView.hideLoading();
         lockAppView.showFailure(e);
     }

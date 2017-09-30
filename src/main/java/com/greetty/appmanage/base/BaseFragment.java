@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseFragment extends Fragment {
+
+    private static final String TAG = "BaseFragment";
 
     //Fragment的View加载完毕的标记
     private boolean isViewCreated;
@@ -38,6 +41,7 @@ public abstract class BaseFragment extends Fragment {
         init();
         isViewCreated = true;
         lazyLoad();
+
         return view;
     }
 

@@ -1,10 +1,14 @@
 package com.greetty.appmanage.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.greetty.appmanage.R;
@@ -21,6 +25,7 @@ import com.greetty.appmanage.util.LoadingUtil;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Greetty on 2017/9/23.
@@ -53,6 +58,13 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
     @Override
     protected int initContentView() {
         return R.layout.fragment_locked_app;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this,super.onCreateView(inflater, container, savedInstanceState));
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

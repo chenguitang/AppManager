@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -29,6 +30,10 @@ public class KeepLiveService extends Service {
     public IBinder onBind(Intent intent) {
         return new ProcessConnection.Stub() {
 
+            @Override
+            public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+            }
         };
     }
 
