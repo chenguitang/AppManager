@@ -127,15 +127,11 @@ public class LockAppListenerService extends Service {
 
                                 startActivity(intent);
                                 Log.e(TAG, packageName + "是保护对象");
+                            }else{
+                                if (tempStopProtectPackageName != null && !packageName.equals("com.greetty.appmanage"))
+                                    tempStopProtectPackageName=null;
                             }
-                        } else {
-                            if (tempStopProtectPackageName != null && !packageName.equals(
-                                    "com.greetty.appmanage") && !packageName.equals(tempStopProtectPackageName)) {
-                                Log.e(TAG, "packageName: " + packageName);
-                                Log.e(TAG, "设置tempStopProtectPackageName为空: ");
-                                tempStopProtectPackageName = null;
-                            }
-                        }
+                        } 
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
