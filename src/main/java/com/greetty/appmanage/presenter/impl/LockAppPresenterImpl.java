@@ -28,23 +28,19 @@ public class LockAppPresenterImpl implements LockAppPresenter,OnLockAPPListener 
 
     @Override
     public void getLockApp(Context context) {
-        Log.e("LockAppPresenterImpl", "getLockApp: ");
-
+        Log.d(TAG, "getLockApp: ");
         lockAppView.showLoading();
         lockAppModel.loadLockApp(context,this);
     }
 
     @Override
     public void onSuccess(List<AppInfo> list) {
-        Log.e(TAG, "+++++++ onSuccess ++++++++");
-        Log.e(TAG, "list.size: "+list.size());
         lockAppView.hideLoading();
         lockAppView.displayLockApp(list);
     }
 
     @Override
     public void onError(Exception e) {
-        Log.e(TAG, "+++++++ onError ++++++++");
         lockAppView.hideLoading();
         lockAppView.showFailure(e);
     }

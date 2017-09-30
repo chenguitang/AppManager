@@ -15,8 +15,6 @@ public class LoadingUtil {
     private Context mContext;
     private AlertDialog.Builder mLoadingBuilder;
     private AlertDialog mLoadingAlertDialog;
-    private int showSum = 0;
-    private int dismissSum = 0;
 
     public LoadingUtil(Context context) {
         this.mContext = context;
@@ -31,27 +29,12 @@ public class LoadingUtil {
         mLoadingAlertDialog.show();
         mLoadingAlertDialog.setCanceledOnTouchOutside(false);
         mLoadingAlertDialog.setCancelable(false);
-        showSum++;
-        Log.e(TAG, "showSum: " + showSum);
-        if (mLoadingAlertDialog==null){
-            Log.e(TAG, "mLoadingAlertDialog==null");
-        }else {
-            Log.e(TAG, "mLoadingAlertDialog!=null");
-        }
-
-
     }
 
     public void dismissLoading() {
-        if (mLoadingAlertDialog != null) {
+        if (mLoadingAlertDialog != null)
             mLoadingAlertDialog.dismiss();
-            dismissSum++;
-            Log.e(TAG, "dismissSum: " + dismissSum);
-        }
-        Log.e(TAG, "dismissLoading: ");
-        
-//        mLoadingAlertDialog.dismiss();
-//        mLoadingAlertDialog = null;
+        mLoadingAlertDialog = null;
     }
 
 }

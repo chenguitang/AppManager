@@ -117,7 +117,7 @@ public class SplashActivity extends BaseActivity implements
     public void onProgress(int what, int progress) {
         if (what == 1 && progress == 100 && !isClick) {
            startActivity(MainActivity.class,true);
-            Log.e(TAG, "onProgress: ==" + progress);
+            Log.d(TAG, "onProgress: ==" + progress);
         }
     }
 

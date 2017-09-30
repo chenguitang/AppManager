@@ -35,14 +35,12 @@ public class UnLockAppPresenterImpl implements UnLockAppPresenter, OnUnLockAPPLi
 
     @Override
     public void onSuccess(List<AppInfo> list) {
-        Log.e(TAG, "+++++++ onSuccess ++++++++");
         unLockAppView.hideLoading();
         unLockAppView.displayLockApp(list);
     }
 
     @Override
     public void onError(Exception e) {
-        Log.e(TAG, "+++++++ onError ++++++++");
         unLockAppView.hideLoading();
         unLockAppView.showFailure(e);
     }

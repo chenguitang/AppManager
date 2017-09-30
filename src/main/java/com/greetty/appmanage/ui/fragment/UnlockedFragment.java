@@ -55,12 +55,13 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
         return fragment;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = super.onCreateView(inflater, container, savedInstanceState);
+//        ButterKnife.bind(this,view);
+//        return view;
+//    }
 
     @Override
     protected int initContentView() {
@@ -108,10 +109,6 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
 
     @Override
     public void displayLockApp(List<AppInfo> list) {
-//        for (int i=0;i<list.size();i++){
-//            Log.e(TAG, "packageName: "+list.get(i).getPackname());
-//        }
-        Log.e(TAG, "applist size: " + list.size());
         mUnLockAppAdapter = new UnLockAppAdapter(RxApp.getInstance(), list);
         rvUnLockList.setAdapter(mUnLockAppAdapter);
         mUnLockAppAdapter.setDataChangeListener(this);

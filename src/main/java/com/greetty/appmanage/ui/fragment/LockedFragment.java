@@ -60,12 +60,13 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
         return R.layout.fragment_locked_app;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ButterKnife.bind(this,super.onCreateView(inflater, container, savedInstanceState));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = super.onCreateView(inflater, container, savedInstanceState);
+//        ButterKnife.bind(this,view);
+//        return view;
+//    }
 
     @Override
     protected void init() {
