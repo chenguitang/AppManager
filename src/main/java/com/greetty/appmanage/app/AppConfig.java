@@ -40,4 +40,10 @@ public class AppConfig {
     public static final int ITEM_ANIMATION_TIME = 300;
 
 
+    /**
+     * 暂时停止保护应用广播Action
+     */
+    public static final String  STOP_PROTECT_BROADCAST_ACATION="com.greetty.stopprotect";
+
+
 }
