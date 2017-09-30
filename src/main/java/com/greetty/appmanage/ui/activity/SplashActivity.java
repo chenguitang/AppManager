@@ -1,8 +1,10 @@
 package com.greetty.appmanage.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -14,7 +16,10 @@ import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.app.Constants;
 import com.greetty.appmanage.base.BaseActivity;
+import com.greetty.appmanage.service.AppManagerService;
+import com.greetty.appmanage.service.LockAppListenerService;
 import com.greetty.appmanage.service.SplashDownLoadService;
+import com.greetty.appmanage.service.WakeUpService;
 import com.greetty.appmanage.util.FileUtil;
 import com.greetty.appmanage.view.CircleProgressbar;
 
@@ -58,9 +63,20 @@ public class SplashActivity extends BaseActivity implements
     protected void init(Bundle savedInstanceState) {
         initSplashImage();
         setTvRedSkip();
+        startLockAppListenerService();
         initEvent();
         startImageDownLoad();
+    }
 
+    /**
+     * 启动监听应用服务
+     */
+    private void startLockAppListenerService() {
+        startService(new Intent(this,LockAppListenerService.class));
+        startService(new Intent(this,AppManagerService.class));
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            startService(new Intent(this,WakeUpService.class));
+        }
     }
 
     private void initSplashImage() {

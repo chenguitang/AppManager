@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:name=".app.RxApp"
@@ -26,7 +28,25 @@
         <service
             android:name="com.greetty.appmanage.service.SplashDownLoadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <service
+            android:name=".service.AppManagerService"
+            android:process=":AppManagerService" />
+
+        <service android:name=".service.LockAppListenerService" />
+
+        <service
+            android:name="com.greetty.appmanage.service.WakeUpService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!--开机完成广播-->
+        <receiver android:name=".receiver.BootCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
