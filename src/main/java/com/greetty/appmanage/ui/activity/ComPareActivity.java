@@ -27,24 +27,26 @@ public class ComPareActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.btn_compare_password)
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_compare_password:
-                sendBroadcast();
-                finish();
-                break;
-            default:
-                break;
-        }
-    }
+//    @OnClick(R.id.btn_compare_password)
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.btn_compare_password:
+//                sendBroadcast();
+//                finish();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
+    /**
+     * 密码正确，发送广播暂时停止监听该应用
+     */
     private void sendBroadcast() {
         Intent mIntent = getIntent();
         if (mIntent != null) {
             packageName = mIntent.getStringExtra("packageName");
         }
-
         Intent intent = new Intent();
         // 发送广播。停止保护
         intent.setAction(AppConfig.STOP_PROTECT_BROADCAST_ACATION);
@@ -53,15 +55,14 @@ public class ComPareActivity extends AppCompatActivity {
         sendBroadcast(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
+    /**
+     * 监听物理按键
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            // 当用户输入后退健 的时候。我们进入到桌面
+            // 当用户输入后退健的时候，我们进入到桌面
             Intent intent = new Intent();
             intent.setAction("android.intent.action.MAIN");
             intent.addCategory("android.intent.category.HOME");
@@ -71,4 +72,10 @@ public class ComPareActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }
