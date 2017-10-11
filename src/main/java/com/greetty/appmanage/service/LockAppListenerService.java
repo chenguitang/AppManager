@@ -49,10 +49,10 @@ public class LockAppListenerService extends Service {
                 tempStopProtectPackageName = intent.getStringExtra("packageName");
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 tempStopProtectPackageName = null;
-                // 让狗休息
+                //停止监听，休息一会
                 flag = false;
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                //让狗继续干活
+                //继续监听
                 if (!flag) {
                     startLockAppListener();
                 }

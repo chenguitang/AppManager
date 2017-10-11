@@ -6,4 +6,11 @@
     <string name="hide_app">Hide</string>
     <string name="my_app">Me</string>
 
+    <string name="password_null">Password cannot be empty</string>
+    <string name="password_error">Password error, please re-enter</string>
+    <string name="enter_password_title">Program encryption</string>
+    <string name="password_input_title">Please input a password</string>
+    <string name="password_input_hint">Please input a password</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>
