@@ -1,5 +1,7 @@
 package com.greetty.appmanage.ui.activity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,9 @@ import android.support.v4.view.ViewPager;
 
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.base.BaseActivity;
+import com.greetty.appmanage.service.AppManagerService;
+import com.greetty.appmanage.service.LockAppListenerService;
+import com.greetty.appmanage.service.WakeUpService;
 import com.greetty.appmanage.ui.adapter.ViewPagerAdapter;
 import com.greetty.appmanage.ui.fragment.HideAppFragment;
 import com.greetty.appmanage.ui.fragment.LockedFragment;
@@ -24,7 +29,7 @@ import butterknife.BindView;
 
 /**
  * created by Greetty at 2017/9/21 13:09
- *
+ * <p>
  * MainActivity 主页面
  */
 
@@ -69,6 +74,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
         initViewPager();
         initEvent();
+        initData();
     }
 
 
@@ -76,6 +82,15 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         mBottomBar.setOnMenuTabClickListener(this);
         viewPager.addOnPageChangeListener(this);
     }
+
+    private void initData() {
+        startService(new Intent(this, LockAppListenerService.class));
+        startService(new Intent(this, AppManagerService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startService(new Intent(this, WakeUpService.class));
+        }
+    }
+
 
     /**
      * 初始化Viewpager

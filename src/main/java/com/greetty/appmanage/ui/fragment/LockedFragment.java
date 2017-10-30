@@ -1,6 +1,10 @@
 package com.greetty.appmanage.ui.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.greetty.appmanage.R;
+import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.app.RxApp;
 import com.greetty.appmanage.base.BaseFragment;
 import com.greetty.appmanage.model.db.contentobserver.LockAppContentObserver;
@@ -51,6 +56,7 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
     private LoadingUtil mLoadingUtil;
     private LockAppAdapter mLockAppAdapter;
     private Uri mUri;
+    private LockAppAddBroadcastReceiver lockAppAddBroadcastReceiver;
 
     public static LockedFragment newInstance() {
 
@@ -69,7 +75,6 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
                     if (!isUIVisible) {
 //                        Toast.makeText(mContext, "LockedFragment 数据发生变化，请刷新数据", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "我再handle中加载了数据: ++++++++++");
-
                         mLockAppPresenter.getLockApp(mContext, false);
                     }
 //                        Toast.makeText(mContext, "LockedFragment 我当前不可见，我要刷新数据", Toast.LENGTH_SHORT).show();
@@ -99,8 +104,13 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
 
     @Override
     protected void initData() {
-        ContentResolver resolver = RxApp.getInstance().getContentResolver();
-        resolver.registerContentObserver(mUri, true, new LockAppContentObserver(mHandler));
+//        ContentResolver resolver = RxApp.getInstance().getContentResolver();
+//        resolver.registerContentObserver(mUri, true, new LockAppContentObserver(mHandler));
+        lockAppAddBroadcastReceiver = new LockAppAddBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AppConfig.BROCASTRECEIVER_LOCKAPPADD);
+        getContext().registerReceiver(lockAppAddBroadcastReceiver, filter);
+
         mLockAppPresenter.getLockApp(mContext, true);
         Log.e(TAG, "我再initData中加载了数据: ++++++++++");
 
@@ -131,8 +141,31 @@ public class LockedFragment extends BaseFragment implements LockAppView, UnLockA
     @Override
     public void dataChange(int position) {
         Log.e(TAG, "数据已改变，正在刷新数据。。。");
-        if (mLockAppAdapter != null)
+        if (mLockAppAdapter != null) {
             mLockAppAdapter.notifyDataSetChanged();
+
+            //发送广播，刷新数据
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.BROCASTRECEIVER_LOCKAPPREMOVE);
+            getContext().sendBroadcast(intent);
+        }
     }
 
+    /**
+     * 加锁应用增加广播
+     */
+    class LockAppAddBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "收到刷新数据广播，开始刷新数据: ++++++++++");
+            mLockAppPresenter.getLockApp(mContext, false);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(lockAppAddBroadcastReceiver);
+    }
 }

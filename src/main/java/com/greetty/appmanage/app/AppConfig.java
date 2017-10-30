@@ -45,5 +45,15 @@ public class AppConfig {
      */
     public static final String  STOP_PROTECT_BROADCAST_ACATION="com.greetty.stopprotect";
 
+    /**
+     * 增加加锁应用
+     */
+    public static final String BROCASTRECEIVER_LOCKAPPADD ="com.greetty.appmanage.lockappadd";
+
+    /**
+     * 减少加锁应用
+     */
+    public static final String BROCASTRECEIVER_LOCKAPPREMOVE ="com.greetty.appmanage.lockappremove";
+
 
 }

@@ -1,6 +1,10 @@
 package com.greetty.appmanage.ui.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.greetty.appmanage.R;
+import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.app.RxApp;
 import com.greetty.appmanage.base.BaseFragment;
 import com.greetty.appmanage.model.db.contentobserver.LockAppContentObserver;
@@ -52,6 +57,7 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
     private UnLockAppAdapter mUnLockAppAdapter;
     private List<AppInfo> mList;
     private Uri mUri;
+    private LockAppRemoveBroadcastReceiver lockAppRemoveBroadcastReceiver;
 
     public static UnlockedFragment newInstance() {
 
@@ -102,8 +108,13 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
 
     @Override
     protected void initData() {
-        ContentResolver resolver = RxApp.getInstance().getContentResolver();
-        resolver.registerContentObserver(mUri, true, new LockAppContentObserver(mHandler));
+//        ContentResolver resolver = RxApp.getInstance().getContentResolver();
+//        resolver.registerContentObserver(mUri, true, new LockAppContentObserver(mHandler));
+        lockAppRemoveBroadcastReceiver = new LockAppRemoveBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AppConfig.BROCASTRECEIVER_LOCKAPPREMOVE);
+        getContext().registerReceiver(lockAppRemoveBroadcastReceiver, filter);
+
         mUnLockAppPresenter.getLockApp(RxApp.getInstance(), true);
     }
 
@@ -137,7 +148,30 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
     @Override
     public void dataChange(int position) {
         Log.d(TAG, "数据已改变，正在刷新数据。。。");
-        if (mUnLockAppAdapter != null)
+        if (mUnLockAppAdapter != null) {
             mUnLockAppAdapter.notifyDataSetChanged();
+            //发送广播，刷新数据
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.BROCASTRECEIVER_LOCKAPPADD);
+            getContext().sendBroadcast(intent);
+        }
+    }
+
+    /**
+     * 加锁应用删除广播
+     */
+    class LockAppRemoveBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "收到刷新数据广播，开始刷新数据: ++++++++++");
+            mUnLockAppPresenter.getLockApp(mContext, false);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(lockAppRemoveBroadcastReceiver);
     }
 }
