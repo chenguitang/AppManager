@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.greetty.appmanage.model.LockAppModel;
 import com.greetty.appmanage.model.db.dao.AppLockDao;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class LockAppModelImpl implements LockAppModel {
 
+    private static final String TAG = "LockAppModelImpl";
     private static final int QUERY_SUCCESS = 101;
     private static final int QUERY_ERROR = 102;
 
@@ -32,6 +34,7 @@ public class LockAppModelImpl implements LockAppModel {
             switch (msg.what) {
                 case QUERY_SUCCESS:
                     mOnLockAPPListener.onSuccess(lockAppInfos);
+                    Log.e(TAG, "加锁应用大小为: "+lockAppInfos.size());
                     break;
                 case QUERY_ERROR:
                     mOnLockAPPListener.onError((Exception) msg.obj);
@@ -44,6 +47,8 @@ public class LockAppModelImpl implements LockAppModel {
 
     @Override
     public void loadLockApp(final Context context, final OnLockAPPListener onLockAPPListener) {
+        Log.e(TAG, "++++++++++++加载数据:+++++++++++++");
+
         mOnLockAPPListener=onLockAPPListener;
         new Thread(){
             @Override
@@ -51,8 +56,11 @@ public class LockAppModelImpl implements LockAppModel {
                 try {
                     AppLockDao appLockDao = new AppLockDao(context);
                     lockAppInfos = new ArrayList<>();
+                    lockAppInfos.clear();
                     List<String> lockAPPs = appLockDao.queryAllLockApp();
+                    Log.e(TAG, "lockAPPs size: "+lockAPPs.size());
                     List<AppInfo> allAppInfos = AppUtil.getAppInfos(context);
+                    Log.e(TAG, "allAppInfos size: "+allAppInfos.size());
                     for (int i = 0; i < lockAPPs.size(); i++) {
                         for (AppInfo appinfo : allAppInfos) {
                             if (appinfo.getPackname().equals(lockAPPs.get(i)))

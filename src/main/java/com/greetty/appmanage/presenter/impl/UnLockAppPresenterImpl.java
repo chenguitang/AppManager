@@ -21,6 +21,7 @@ public class UnLockAppPresenterImpl implements UnLockAppPresenter, OnUnLockAPPLi
     private static final String TAG = "UnLockAppPresenterImpl";
     private UnLockAppView unLockAppView;
     private UnLockAppModel unLockAppModel;
+    private boolean isShowLoading;
 
     public UnLockAppPresenterImpl(UnLockAppView unLockAppView) {
         this.unLockAppView = unLockAppView;
@@ -28,20 +29,26 @@ public class UnLockAppPresenterImpl implements UnLockAppPresenter, OnUnLockAPPLi
     }
 
     @Override
-    public void getLockApp(Context context) {
-        unLockAppView.showLoading();
+    public void getLockApp(Context context, boolean isShowLoading) {
+        Log.e(TAG, "isShowLoading: " + isShowLoading);
+        this.isShowLoading = isShowLoading;
+        if (isShowLoading)
+            unLockAppView.showLoading();
         unLockAppModel.loadLockApp(context, this);
     }
 
     @Override
     public void onSuccess(List<AppInfo> list) {
-        unLockAppView.hideLoading();
+        if (isShowLoading)
+            unLockAppView.hideLoading();
         unLockAppView.displayLockApp(list);
     }
 
     @Override
     public void onError(Exception e) {
-        unLockAppView.hideLoading();
-        unLockAppView.showFailure(e);
+        if (isShowLoading) {
+            unLockAppView.hideLoading();
+            unLockAppView.showFailure(e);
+        }
     }
 }

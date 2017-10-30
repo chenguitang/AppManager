@@ -15,33 +15,39 @@ import java.util.List;
 /**
  * Created by Greetty on 2017/9/26.
  */
-public class LockAppPresenterImpl implements LockAppPresenter,OnLockAPPListener {
+public class LockAppPresenterImpl implements LockAppPresenter, OnLockAPPListener {
 
     private static final String TAG = "LockAppPresenterImpl";
     private LockAppView lockAppView;
     private LockAppModel lockAppModel;
+    private boolean isShowLoading; //是否显示加载框
 
-    public LockAppPresenterImpl(LockAppView lockAppView){
-        this.lockAppView=lockAppView;
-        this.lockAppModel=new LockAppModelImpl();
+    public LockAppPresenterImpl(LockAppView lockAppView) {
+        this.lockAppView = lockAppView;
+        this.lockAppModel = new LockAppModelImpl();
     }
 
     @Override
-    public void getLockApp(Context context) {
-        Log.d(TAG, "getLockApp: ");
-        lockAppView.showLoading();
-        lockAppModel.loadLockApp(context,this);
+    public void getLockApp(Context context, boolean isShowLoading) {
+        Log.d(TAG, "isShowLoading: " + isShowLoading);
+        this.isShowLoading = isShowLoading;
+        if (isShowLoading)
+            lockAppView.showLoading();
+        lockAppModel.loadLockApp(context, this);
     }
 
     @Override
     public void onSuccess(List<AppInfo> list) {
-        lockAppView.hideLoading();
+        if (isShowLoading)
+            lockAppView.hideLoading();
         lockAppView.displayLockApp(list);
     }
 
     @Override
     public void onError(Exception e) {
-        lockAppView.hideLoading();
-        lockAppView.showFailure(e);
+        if (isShowLoading) {
+            lockAppView.hideLoading();
+            lockAppView.showFailure(e);
+        }
     }
 }

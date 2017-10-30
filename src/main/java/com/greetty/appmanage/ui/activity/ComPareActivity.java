@@ -51,13 +51,13 @@ public class ComPareActivity extends AppCompatActivity {
                 }
 
                 //密码正确
-                if (PassWord.equals(savePassWord)) {
-                    sendBroadcast();
-                    finish();
-                } else {
-                    Toast.makeText(this, R.string.password_error, Toast.LENGTH_SHORT).show();
-                    etPassWord.setText("");
-                }
+//                if (PassWord.equals(savePassWord)) {
+                sendBroadcast();
+                finish();
+//                } else {
+//                    Toast.makeText(this, R.string.password_error, Toast.LENGTH_SHORT).show();
+//                    etPassWord.setText("");
+//                }
                 break;
             case R.id.btn_cancel:
                 finish();

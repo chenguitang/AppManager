@@ -144,4 +144,14 @@ public class LockAppAdapter extends RecyclerView.Adapter<LockAppAdapter.MyViewHo
     public interface DataChangeListener{
         void dataChange(int position);
     }
+
+    /**
+     * 更新未加锁应用数据
+     * @param appInfoList 数据
+     */
+    public void updateUnlockAppData(List<AppInfo> appInfoList){
+        listUnlockApp.clear();
+        listUnlockApp=appInfoList;
+        mDataChangeListener.dataChange(-1);
+    }
 }

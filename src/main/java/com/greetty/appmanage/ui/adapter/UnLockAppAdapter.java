@@ -3,7 +3,6 @@ package com.greetty.appmanage.ui.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.AppConfig;

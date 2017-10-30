@@ -45,7 +45,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.activity.ComPareActivity"></activity>
+        <activity android:name=".ui.activity.ComPareActivity"/>
+
+        <provider
+            android:authorities="com.greetty.appmanager"
+            android:name="com.greetty.appmanage.model.db.contentprovider.AppLockProvider">
+        </provider>
+
+
     </application>
 
 </manifest>

@@ -1,12 +1,17 @@
 package com.greetty.appmanage.model.db.dao;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.util.Log;
 
 import com.greetty.appmanage.app.AppConfig;
 import com.greetty.appmanage.model.db.DataBaseSQLHelper;
+import com.greetty.appmanage.model.db.contentprovider.AppLockProvider;
 import com.greetty.appmanage.util.AppUtil;
 
 import java.util.ArrayList;
@@ -19,11 +24,17 @@ import java.util.List;
  */
 public class AppLockDao {
 
+    private static final String TAG = "AppLockDao";
     private DataBaseSQLHelper appLockHelper;
+    private static final String AUTHORITY = "com.greetty.appmanager";
+    private Uri mUri;
+    private ContentResolver cr;
 
     public AppLockDao(Context context) {
         appLockHelper = new DataBaseSQLHelper(context, AppConfig.TABLE_LOCK_APP_NAME, null,
                 AppUtil.getVersionCode(context));
+        mUri = Uri.parse("content://"+AUTHORITY);
+        cr=context.getContentResolver();
     }
 
     /**
@@ -32,11 +43,9 @@ public class AppLockDao {
      * @param packageName 加锁应用包名
      */
     public void insert(String packageName) throws Exception {
-        SQLiteDatabase db = appLockHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("packagename", packageName);
-        db.insert(AppConfig.TABLE_LOCK_APP_NAME, null, values);
-        db.close();
+        cr.insert(mUri, values);
     }
 
     /**
@@ -45,9 +54,7 @@ public class AppLockDao {
      * @param packageName 删除加锁应用包名
      */
     public void delete(String packageName) throws Exception {
-        SQLiteDatabase db = appLockHelper.getWritableDatabase();
-        db.delete(AppConfig.TABLE_LOCK_APP_NAME, "packagename=?", new String[]{packageName});
-        db.close();
+        cr.delete(mUri,"packagename=?", new String[]{packageName});
     }
 
     /**

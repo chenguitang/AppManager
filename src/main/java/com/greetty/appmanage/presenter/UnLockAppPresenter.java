@@ -10,5 +10,10 @@ public interface UnLockAppPresenter {
     /**
      * 获取未加锁APP
      */
-    void getLockApp(Context context);
+    /**
+     * 获取未加锁APP
+     * @param context context
+     * @param isShowLoading 是否显示加载进度条
+     */
+    void getLockApp(Context context, boolean isShowLoading);
 }

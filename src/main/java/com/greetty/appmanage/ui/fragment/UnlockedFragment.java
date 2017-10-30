@@ -1,6 +1,10 @@
 package com.greetty.appmanage.ui.fragment;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 import com.greetty.appmanage.R;
 import com.greetty.appmanage.app.RxApp;
 import com.greetty.appmanage.base.BaseFragment;
+import com.greetty.appmanage.model.db.contentobserver.LockAppContentObserver;
 import com.greetty.appmanage.model.entity.AppInfo;
 import com.greetty.appmanage.presenter.UnLockAppPresenter;
 import com.greetty.appmanage.presenter.impl.UnLockAppPresenterImpl;
@@ -37,6 +42,7 @@ import butterknife.ButterKnife;
 public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnLockAppAdapter.DataChangeListener {
 
     private static final String TAG = "UnlockedFragment";
+    private static final String AUTHORITY = "com.greetty.appmanager";
 
     @BindView(R.id.rv_unlock_list)
     RecyclerView rvUnLockList;
@@ -45,6 +51,7 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
     private LoadingUtil mLoadingUtil;
     private UnLockAppAdapter mUnLockAppAdapter;
     private List<AppInfo> mList;
+    private Uri mUri;
 
     public static UnlockedFragment newInstance() {
 
@@ -55,13 +62,23 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
         return fragment;
     }
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = super.onCreateView(inflater, container, savedInstanceState);
-//        ButterKnife.bind(this,view);
-//        return view;
-//    }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 200:
+                    if (!isUIVisible) {
+//                        Toast.makeText(mContext, "UnlockedFragment 数据发生变化，请刷新数据 ", Toast.LENGTH_SHORT).show();
+                        mUnLockAppPresenter.getLockApp(RxApp.getInstance(), false);
+                    }
+//                        Toast.makeText(mContext, "UnlockedFragment 我当前不可见，我要刷新数据", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected int initContentView() {
@@ -70,6 +87,7 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
 
     @Override
     protected void init() {
+        mUri = Uri.parse("content://" + AUTHORITY);
         mUnLockAppPresenter = new UnLockAppPresenterImpl(this);
         mLoadingUtil = new LoadingUtil(getContext());
         mList = new ArrayList<>();
@@ -84,7 +102,9 @@ public class UnlockedFragment extends BaseFragment implements UnLockAppView, UnL
 
     @Override
     protected void initData() {
-        mUnLockAppPresenter.getLockApp(RxApp.getInstance());
+        ContentResolver resolver = RxApp.getInstance().getContentResolver();
+        resolver.registerContentObserver(mUri, true, new LockAppContentObserver(mHandler));
+        mUnLockAppPresenter.getLockApp(RxApp.getInstance(), true);
     }
 
     @Override

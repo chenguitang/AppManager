@@ -26,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     //Fragment的View加载完毕的标记
     private boolean isViewCreated;
     //Fragment对用户可见的标记
-    private boolean isUIVisible;
+    public boolean isUIVisible;
     private Unbinder unbinder;
     protected AppCompatActivity mActivity;
     protected Context mContext;
